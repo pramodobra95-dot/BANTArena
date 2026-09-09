@@ -1,0 +1,133 @@
+@import "tailwindcss";
+
+/* ===== BANTConfirm Brand tokens =====
+   BANT  -> Brand Blue (#0f3d91)
+   Confirm -> Brand Yellow (#ffc72c) */
+@theme {
+  --color-brand: #0f3d91;
+  --color-brand-dark: #0a2a66;
+  --color-brand-deep: #081f4f;
+  --color-accent: #ffc72c;
+  --color-accent-deep: #e6a800;
+  --color-accent-soft: #fff4cf;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  @apply bg-slate-50 text-slate-900 antialiased;
+}
+::selection { background: var(--color-accent); color: var(--color-brand-dark); }
+
+/* ===== Reusable component classes ===== */
+@layer components {
+  .btn-primary, .btn-accent, .btn-outline, .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-60;
+  }
+  .btn-primary { @apply bg-brand text-white shadow-sm hover:bg-brand-dark hover:shadow-md; }
+  .btn-accent { @apply bg-accent text-brand-dark shadow-sm hover:bg-accent-deep hover:shadow-md; }
+  .btn-outline { @apply border border-slate-300 bg-white text-slate-800 hover:border-brand hover:text-brand; }
+  .btn-ghost { @apply text-slate-700 hover:bg-slate-100; }
+  .btn-primary:active:not(:disabled), .btn-accent:active:not(:disabled), .btn-outline:active:not(:disabled) { transform: scale(0.97); }
+
+  .input { @apply w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-brand focus:ring-2 focus:ring-brand/15; }
+  .label { @apply mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-600; }
+  .card { @apply rounded-xl border border-slate-200 bg-white shadow-sm; }
+  .badge { @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium; }
+  .skeleton { @apply animate-pulse rounded-lg bg-slate-200; }
+  .container-x { @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8; }
+  .prose-b2b p { @apply mb-4 leading-relaxed text-slate-700; }
+
+  /* brand micro-copy helper */
+  .brand-wordmark { @apply font-extrabold tracking-tight; }
+  .brand-bant { @apply text-brand; }
+  .brand-confirm { @apply text-accent; }
+
+  /* nav link underline micro-interaction */
+  .link-underline { position: relative; }
+  .link-underline::after {
+    content: ""; position: absolute; left: 0; right: 100%; bottom: -2px; height: 2px;
+    background: linear-gradient(90deg, var(--color-brand), var(--color-accent));
+    transition: right 0.25s ease;
+  }
+  .link-underline:hover::after, .link-underline.active::after { right: 0; }
+}
+
+/* ===== Keyframes ===== */
+@keyframes bant-fade-up { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@keyframes bant-fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes bant-zoom-in { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+@keyframes bant-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes bant-shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+@keyframes bant-blob {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(50px, -40px) scale(1.12); }
+  66% { transform: translate(-35px, 25px) scale(0.94); }
+}
+@keyframes bant-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+@keyframes bant-pulse-dot { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.6); opacity: 0.4; } }
+@keyframes bant-typing { 0%, 60%, 100% { transform: translateY(0); opacity: 0.5; } 30% { transform: translateY(-4px); opacity: 1; } }
+@keyframes bant-glow { 0%, 100% { box-shadow: 0 0 0 0 rgba(255, 199, 44, 0.45); } 50% { box-shadow: 0 0 0 12px rgba(255, 199, 44, 0); } }
+@keyframes bant-sweep { to { transform: translateX(100%); } }
+@keyframes bant-progress { from { width: 0%; } to { width: 100%; } }
+
+/* ===== Animation utilities ===== */
+.anim-fade-up { animation: bant-fade-up 0.55s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.anim-fade-in { animation: bant-fade-in 0.5s ease both; }
+.anim-zoom-in { animation: bant-zoom-in 0.35s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.anim-page { animation: bant-fade-up 0.4s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.anim-float { animation: bant-float 5s ease-in-out infinite; }
+.anim-glow { animation: bant-glow 2.4s ease-in-out infinite; }
+
+/* staggered children entrance */
+.stagger > * { opacity: 0; animation: bant-fade-up 0.55s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.stagger > *:nth-child(1) { animation-delay: 0.03s; }
+.stagger > *:nth-child(2) { animation-delay: 0.07s; }
+.stagger > *:nth-child(3) { animation-delay: 0.11s; }
+.stagger > *:nth-child(4) { animation-delay: 0.15s; }
+.stagger > *:nth-child(5) { animation-delay: 0.19s; }
+.stagger > *:nth-child(6) { animation-delay: 0.23s; }
+.stagger > *:nth-child(7) { animation-delay: 0.27s; }
+.stagger > *:nth-child(8) { animation-delay: 0.31s; }
+.stagger > *:nth-child(9) { animation-delay: 0.35s; }
+.stagger > *:nth-child(10) { animation-delay: 0.39s; }
+.stagger > *:nth-child(11) { animation-delay: 0.43s; }
+.stagger > *:nth-child(12) { animation-delay: 0.47s; }
+.stagger > *:nth-child(n + 13) { animation-delay: 0.12s; }
+
+/* scroll reveal (toggled by IntersectionObserver) */
+.reveal { opacity: 0; transform: translateY(26px); transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1); will-change: opacity, transform; }
+.reveal.in-view { opacity: 1; transform: none; }
+
+/* ===== Shimmering skeletons ===== */
+.shimmer { position: relative; overflow: hidden; }
+.shimmer::after {
+  content: ""; position: absolute; inset: 0; transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+  animation: bant-shimmer 1.5s infinite;
+}
+
+/* ===== Vendor marquee ===== */
+.marquee-mask { mask-image: linear-gradient(to right, transparent, black 7%, black 93%, transparent); -webkit-mask-image: linear-gradient(to right, transparent, black 7%, black 93%, transparent); }
+.marquee-track { display: flex; width: max-content; animation: bant-marquee var(--marquee-speed, 38s) linear infinite; will-change: transform; }
+.marquee:hover .marquee-track, .marquee:focus-within .marquee-track { animation-play-state: paused; }
+
+/* ===== Decorative ===== */
+.bg-dots {
+  background-image: radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.22) 1px, transparent 0);
+  background-size: 26px 26px;
+}
+.blob { position: absolute; border-radius: 9999px; filter: blur(70px); opacity: 0.5; animation: bant-blob 16s ease-in-out infinite; will-change: transform; }
+.typing-dot { width: 6px; height: 6px; border-radius: 9999px; background: var(--color-accent); animation: bant-typing 1.1s infinite; }
+.typing-dot:nth-child(2) { animation-delay: 0.15s; }
+.typing-dot:nth-child(3) { animation-delay: 0.3s; }
+
+/* subtle section divider gradient */
+.hr-brand { height: 2px; border: 0; background: linear-gradient(90deg, transparent, var(--color-brand) 30%, var(--color-accent) 70%, transparent); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+  .reveal { opacity: 1; transform: none; }
+  .stagger > * { opacity: 1; }
+  .blob { animation: none; }
+}
